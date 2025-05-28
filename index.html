@@ -3,231 +3,237 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Calculator</title>
-<link rel="icon" href="https://static-00.iconduck.com/assets.00/calculator-icon-2042x2048-8mv9eopl.png" />
+<title>Calculator with Menus & Keyboard</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background-color: #2c2c2c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-}
-.calculator {
-  background: #4B0082;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  padding: 20px;
-  width: calc(4*60px + 3*8px + 40px);
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-#display {
-  width: 100%;
-  min-height: 50px;
-  font-size: 24px;
-  text-align: right;
-  padding: 8px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
-  word-wrap: break-word;
-  user-select: all;
-}
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-/* Button styles omitted for brevity, same as previous code ... */
-button {
-  height: 50px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #FFFF00;
-  transition: background 0.2s;
-  width: 100%;
-  box-sizing: border-box;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-button:hover {
-  background-color: #FFEB3B;
-}
-.clear { background-color: #FFFF00; }
-.equal { background-color: #FFFF00; }
-#expButton {
-  background-image: url('https://i.scdn.co/image/ab67616d0000b27377f941436001fe054c0b1c51');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 50px;
-  height: 50px;
-  padding: 0;
-  font-size: 0;
-  color: transparent;
-  border: none;
-  cursor: pointer;
-}
-#specialButtons {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-top: 10px;
-}
-#specialButtons2 {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 10px;
-}
-#ansButton {
-  position: relative;
-}
-#ansButton .historyArrow {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 12px;
-  color: #888;
-  cursor: pointer;
-}
-#trigSection {
-  display: none;
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-#trigSection button {
-  height: 50px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
-}
-#customizePanel {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f9f9f9;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  z-index: 1000;
-  width: calc(4*60px + 3*8px + 40px);
-  max-width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-#customizePanel label {
-  display: block;
-  margin-bottom: 5px;
-}
-#customizePanel input[type="color"] {
-  margin-bottom: 10px;
-  width: 100%;
-  height: 30px;
-  border: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding: 0;
-}
-#customizePanel input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-#customizePanel input[type="color"]::-webkit-color-swatch {
-  border: none;
-  border-radius: 4px;
-}
-#customizeButton {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: transparent;
-  color: white;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
-  opacity: 0.7;
-  z-index: 999;
-}
-#customizeButton:hover {
-  opacity: 1;
-}
-#historySection {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 20px;
-  z-index: 1001;
-  width: 300px;
-  max-height: 400px;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-#historySection ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-#historySection li {
-  padding: 8px 12px;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-}
-#historySection li:last-child {
-  border-bottom: none;
-}
-#historySection li:hover {
-  background-color: #f0f0f0;
-}
-sup {
-  font-size: 0.7em;
-  vertical-align: super;
-}
-#formulasPopup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 20px;
-  z-index: 1002;
-  width: 300px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  text-align: left;
-  line-height: 1.6;
-}
-#formulasPopup button {
-  display: block;
-  margin-top: 10px;
-}
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #2c2c2c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  /* Main calculator styling */
+  .calculator {
+    background: #4B0082;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 20px;
+    width: calc(4*60px + 3*8px + 40px);
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  #display {
+    width: 100%;
+    min-height: 50px;
+    font-size: 24px;
+    text-align: right;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    word-wrap: break-word;
+    user-select: all;
+  }
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  button {
+    height: 50px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #FFFF00;
+    transition: background 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  button:hover {
+    background-color: #FFEB3B;
+  }
+  .clear { background-color: #FFFF00; }
+  .equal { background-color: #FFFF00; }
+  #expButton {
+    background-image: url('https://i.scdn.co/image/ab67616d0000b27377f941436001fe054c0b1c51');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    font-size: 0;
+    color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  #specialButtons {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+  #specialButtons2 {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+  #ansButton {
+    position: relative;
+  }
+  #ansButton .historyArrow {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+  }
+  #trigSection {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  #trigSection button {
+    height: 50px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Customization panel styling */
+  #customizePanel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    width: calc(4*60px + 3*8px + 40px);
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  #customizePanel label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  #customizePanel input[type="color"] {
+    margin-bottom: 10px;
+    width: 100%;
+    height: 30px;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0;
+  }
+  #customizePanel input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  #customizePanel input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+  }
+  /* Theme (pencil icon) button styling */
+  #customizeButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    opacity: 0.7;
+    z-index: 999;
+  }
+  #customizeButton:hover {
+    opacity: 1;
+  }
+  /* Equation History section - toggle pop-up */
+  #historySection {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1001;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  #historySection h3 {
+    margin-top: 0;
+  }
+  #historySection ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #historySection li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+  #historySection li:last-child {
+    border-bottom: none;
+  }
+  #historySection li:hover {
+    background-color: #f0f0f0;
+  }
+  /* Formulas popup styling */
+  #formulasPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1002;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  #formulasPopup h3 {
+    margin-top: 0;
+  }
+  #formulasPopup p {
+    margin: 8px 0;
+  }
+  #formulasPopup button {
+    display: block;
+    margin-top: 10px;
+  }
 </style>
 </head>
 <body>
@@ -255,16 +261,18 @@ sup {
     <button onclick="calculate()" class="equal"> = </button>
     <button onclick="press('+')" class="operator"> + </button>
   </div>
-
   <div id="specialButtons">
     <button onclick="calculateSquareRoot()"> √ </button>
     <button onclick="press('∛(')"> ∛ </button>
     <button onclick="press('^')"> ^ </button>
-    <button onclick="press('p')"> π </button>
+    <!-- Pi button now inserts the number directly -->
+    <button onclick="press('3.141592653589793')"> π </button>
     <button id="expButton" onclick="add69()" aria-label="exp"></button>
   </div>
   <div id="specialButtons2">
-    <button id="ansButton"> Ans <span class="historyArrow">↗</span></button>
+    <!-- "Ans" and "History" toggle buttons -->
+    <button id="ansButton" onclick="insertAns()"> Ans <span class="historyArrow">↗</span></button>
+    <button id="historyToggle" onclick="toggleHistory()">History</button>
     <button id="trigBtn" onclick="toggleTrigSection()">trig</button>
     <button id="formulasButton" onclick="openFormulas()">Formulas</button>
   </div>
@@ -277,44 +285,50 @@ sup {
   <button onclick="press('log(')"> log </button>
 </div>
 
+<!-- Theme (pencil icon) button -->
+<button id="customizeButton">✐</button>
+
+<!-- Customize panel -->
 <div id="customizePanel">
   <h3>Customize Colors</h3>
   <label for="backgroundColor">Background Color:</label>
   <input type="color" id="backgroundColor" value="#2c2c2c" />
-
   <label for="calculatorBackgroundColor">Calculator Background Color:</label>
   <input type="color" id="calculatorBackgroundColor" value="#4B0082" />
-
   <label for="buttonColor">Button Color:</label>
   <input type="color" id="buttonColor" value="#FFFF00" />
-
-  <button onclick="applyCustomization()" id="applyButton">Apply</button>
+  <button onclick="applyTheme()" id="applyButton">Apply</button>
   <button onclick="closeCustomization()" id="closeButton">Close</button>
 </div>
 
-<button id="customizeButton">✐</button>
-
-<div id="historySection">
+<!-- Equation History popup -->
+<div id="historySection" style="display:none;">
   <h3>Equation History</h3>
   <ul id="historyList"></ul>
-  <button onclick="closeHistory()">Close</button>
+  <!-- Larger hitbox for close -->
+  <div style="margin-top:10px; padding:10px; cursor:pointer;">
+    <button id="closeHistoryBtn" onclick="closeHistory()">Close</button>
+  </div>
 </div>
 
-<div id="formulasPopup">
+<!-- Formulas popup -->
+<div id="formulasPopup" style="display:none;">
   <h3>Common Formulas</h3>
-  <p>Circle Area: r^2 * 3.14</p>
-  <p>Square Area: L * W</p>
-  <p>Cube Volume: L * W * H</p>
-  <p>Sphere: (4/3) * 3.14 * r^3</p>
-  <p>Cylinder: r^2 * h * 3.14</p>
-  <p>Cone: r^2 * h * 3.14 / 3</p>
-  <button onclick="closeFormulas()">Close</button>
+  <p>Circle Area: r<sup>2</sup> × 3.14</p>
+  <p>Square Area: L × W</p>
+  <p>Cube Volume: L × W × H</p>
+  <p>Sphere: 4 × 3.14 × r<sup>3</sup> / 3</p>
+  <p>Cylinder: r<sup>2</sup> × h × 3.14</p>
+  <p>Cone: r<sup>2</sup> × h × 3.14 / 3</p>
+  <button id="closeFormulasBtn" onclick="closeFormulas()">Close</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
 <script>
 const displayEl = document.getElementById('display');
 const trigSection = document.getElementById('trigSection');
+const historyListEl = document.getElementById('historyList');
+
 let lastAnswer = null;
 const history = [];
 
@@ -336,6 +350,8 @@ function pressDisplay(displayVal) {
     currentExpression += '/';
   } else if (displayVal === '×') {
     currentExpression += '*';
+  } else {
+    currentExpression += displayVal;
   }
   updateDisplay();
 }
@@ -352,52 +368,40 @@ function backspace() {
 
 function insertAns() {
   if (lastAnswer !== null) {
-    press(lastAnswer.toString());
+    currentExpression += lastAnswer.toString();
+    updateDisplay();
   }
 }
 
-function preprocessExpression(expr) {
-  // Convert √( to sqrt(
+function balanceParentheses(expr) {
+  let openCount = (expr.match(/\(/g) || []).length;
+  let closeCount = (expr.match(/\)/g) || []).length;
+  if (openCount > closeCount) {
+    expr += ')'.repeat(openCount - closeCount);
+  }
   return expr;
 }
 
-function balanceParentheses(expression) {
-  let openCount = (expression.match(/\(/g) || []).length;
-  let closeCount = (expression.match(/\)/g) || []).length;
-  if (openCount > closeCount) {
-    expression += ')'.repeat(openCount - closeCount);
-  }
-  return expression;
-}
-
 function isValidExpression(expr) {
-  if (!expr) return false;
-  return true;
+  return expr.trim() !== '';
 }
 
 function calculate() {
-  if (!isValidExpression(currentExpression)) {
-    displayEl.textContent = 'Error: Invalid Expression';
-    return;
-  }
-
   let expr = currentExpression;
-  // Replace √( with sqrt(
   expr = expr.replace(/√\(/g, 'sqrt(');
-  // Balance parentheses
   expr = balanceParentheses(expr);
-  // Convert ^ to pow()
   expr = expr.replace(/([^\s()]+)\^([^\s()]+|\([^()]*\))/g, 'pow($1,$2)');
+  // No need to replace 'math.pi' anymore; we insert the number directly
   try {
     const result = math.evaluate(expr);
     lastAnswer = result;
     currentExpression = result.toString();
     updateDisplay();
-    if (currentExpression && result !== undefined) {
+    if (isValidExpression(currentExpression) && result !== undefined) {
       history.push(currentExpression + ' = ' + result);
       updateHistory();
     }
-  } catch(e) {
+  } catch (e) {
     displayEl.textContent = 'Error: Syntax Error';
   }
 }
@@ -411,7 +415,6 @@ function toggleTrigSection() {
   trigSection.style.display = (trigSection.style.display === 'flex') ? 'none' : 'flex';
 }
 
-// Update display with * as × and / as ÷
 function updateDisplay() {
   let html = '';
   const expr = currentExpression;
@@ -427,7 +430,7 @@ function updateDisplay() {
       if (expr[i] === '(') {
         let count = 1;
         i++;
-        let start = i;
+        const start = i;
         while (i < expr.length && count > 0) {
           if (expr[i] === '(') count++;
           else if (expr[i] === ')') count--;
@@ -449,9 +452,7 @@ function updateDisplay() {
       } else if (expr[i] === '/') {
         html += '÷';
       } else {
-        if (expr[i] === '<') html += '<';
-        else if (expr[i] === '>') html += '>';
-        else html += expr[i];
+        html += expr[i];
       }
       i++;
     }
@@ -459,51 +460,98 @@ function updateDisplay() {
   displayEl.innerHTML = html || ' ';
 }
 
+function handleKeyboard(e) {
+  const k = e.key;
+  if (k >= '0' && k <= '9') { press(k); }
+  else if (k === 'Enter' || k === '=') { calculate(); }
+  else if (k === 'Backspace') { backspace(); }
+  else if (k === 'Escape' || k.toLowerCase() === 'c') { clearDisplay(); }
+  else if (['+', '-', '*', '/', '^'].includes(k)) {
+    if (k === '*') { pressDisplay('×'); }
+    else if (k === '/') { pressDisplay('÷'); }
+    else { press(k); }
+  }
+  else if (k === '.') { press('.'); }
+  else if (k.toLowerCase() === 'r') { calculateSquareRoot(); }
+  else if (k.toLowerCase() === 'q') { press('∛('); }
+  else if (k.toLowerCase() === 'p') { press('3.141592653589793'); } // handle 'p' as number
+  else if (k === '^') { press('^'); }
+  else if (k.toLowerCase() === 's') { press('sin('); }
+  else if (k.toLowerCase() === 'o') { press('cos('); }
+  else if (k.toLowerCase() === 't') { press('tan('); }
+  else if (k === 'l') { press('log('); }
+  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+    e.preventDefault();
+  }
+}
+
 // Load theme on page load
 window.addEventListener('load', () => {
-  const savedThemeStr = localStorage.getItem('calculatorTheme');
-  if (savedThemeStr) {
+  const themeStr = localStorage.getItem('calculatorTheme');
+  if (themeStr) {
     try {
-      const theme = JSON.parse(savedThemeStr);
+      const theme = JSON.parse(themeStr);
       if (theme.backgroundColor) backgroundColorInput.value = theme.backgroundColor;
       if (theme.calculatorBackgroundColor) calculatorBackgroundColorInput.value = theme.calculatorBackgroundColor;
       if (theme.buttonColor) buttonColorInput.value = theme.buttonColor;
       applyTheme();
     } catch(e) { console.log('Invalid theme data.'); }
   }
-
-  // Add keyboard event listener
   document.addEventListener('keydown', handleKeyboard);
 });
 
-// Apply theme styles
+// Apply theme function
 function applyTheme() {
   document.body.style.backgroundColor = backgroundColorInput.value;
   document.querySelector('.calculator').style.backgroundColor = calculatorBackgroundColorInput.value;
+
   const allButtons = document.querySelectorAll(
-    '.buttons button, #specialButtons button, #trigSection button, #ansButton, #trigBtn, #formulasButton'
+    '.buttons button, #specialButtons button, #trigSection button, #ansButton, #trigBtn, #formulasButton, #historyToggle'
   );
   const btnColor = buttonColorInput.value;
+
   function getBrightness(hex) {
     hex = hex.replace('#', '');
-    const r = parseInt(hex.substr(0,2),16);
-    const g = parseInt(hex.substr(2,4),16);
-    const b = parseInt(hex.substr(4,6),16);
-    return (r*299 + g*587 + b*114)/1000;
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 4), 16);
+    const b = parseInt(hex.substr(4, 6), 16);
+    return (r * 299 + g * 587 + b * 114) / 1000;
   }
+
   const fontColor = getBrightness(btnColor) > 128 ? 'black' : 'white';
 
+  // Update all buttons
   allButtons.forEach(btn => {
     btn.style.backgroundColor = btnColor;
     btn.style.color = fontColor;
   });
+
+  // Specific control buttons
   document.getElementById('applyButton').style.backgroundColor = btnColor;
   document.getElementById('applyButton').style.color = fontColor;
   document.getElementById('closeButton').style.backgroundColor = btnColor;
   document.getElementById('closeButton').style.color = fontColor;
+
+  // Update Close buttons
+  const closeHistoryBtn = document.getElementById('closeHistoryBtn');
+  if (closeHistoryBtn) {
+    closeHistoryBtn.style.backgroundColor = btnColor;
+    closeHistoryBtn.style.color = fontColor;
+  }
+  const closeFormulasBtn = document.getElementById('closeFormulasBtn');
+  if (closeFormulasBtn) {
+    closeFormulasBtn.style.backgroundColor = btnColor;
+    closeFormulasBtn.style.color = fontColor;
+  }
+  // Update the "History" toggle button
+  const historyBtn = document.getElementById('historyToggle');
+  if (historyBtn) {
+    historyBtn.style.backgroundColor = btnColor;
+    historyBtn.style.color = fontColor;
+  }
 }
 
-// Save theme on Apply
+// Save theme on apply
 document.getElementById('applyButton').addEventListener('click', () => {
   applyTheme();
   const theme = {
@@ -513,59 +561,79 @@ document.getElementById('applyButton').addEventListener('click', () => {
   };
   localStorage.setItem('calculatorTheme', JSON.stringify(theme));
 });
-
-// UI handlers
 function closeCustomization() {
   document.getElementById('customizePanel').style.display = 'none';
 }
 document.getElementById('customizeButton').onclick = () => {
   document.getElementById('customizePanel').style.display = 'block';
-};
+}
 
-// Keyboard handling
-function handleKeyboard(e) {
-  const key = e.key;
-  if (key >= '0' && key <= '9') {
-    press(key);
-  } else if (key === 'Enter' || key === '=') {
-    calculate();
-  } else if (key === 'Backspace') {
-    backspace();
-  } else if (key === 'Escape' || (key.toLowerCase() === 'c')) {
-    clearDisplay();
-  } else if (key === '+' || key === '-' || key === '*' || key === '/' || key === '^') {
-    // Map * and / to display symbols
-    if (key === '*') pressDisplay('×');
-    else if (key === '/') pressDisplay('÷');
-    else press(key);
-  } else if (key === '.') {
-    press('.');
-  } else if (key.toLowerCase() === 'r') {
-    // square root
-    calculateSquareRoot();
-  } else if (key.toLowerCase() === 'q') {
-    // cube root
-    press('∛(');
-  } else if (key.toLowerCase() === 'p') {
-    // pi
-    press(Math.PI);
-  } else if (key === '^') {
-    press('^');
-  } else if (key.toLowerCase() === 's') {
-    press('sin(');
-  } else if (key.toLowerCase() === 'o') {
-    press('cos(');
-  } else if (key.toLowerCase() === 't') {
-    press('tan(');
-  } else if (key === 'l') {
-    press('log(');
-  }
-  // Prevent default for some keys
-  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-    e.preventDefault();
+// Toggle equation history popup
+function toggleHistory() {
+  const section = document.getElementById('historySection');
+  section.style.display = (section.style.display === 'block') ? 'none' : 'block';
+  if (section.style.display === 'block') {
+    populateHistory();
   }
 }
 
+function updateHistory() {
+  populateHistory();
+}
+
+function populateHistory() {
+  const ul = document.getElementById('historyList');
+  ul.innerHTML = '';
+  for (let i = history.length - 1; i >= 0; i--) {
+    const li = document.createElement('li');
+    li.textContent = history[i];
+    li.onclick = () => {
+      currentExpression = history[i].split('=')[0].trim();
+      updateDisplay();
+      closeHistory();
+    };
+    ul.appendChild(li);
+  }
+}
+
+function closeHistory() {
+  document.getElementById('historySection').style.display = 'none';
+}
+
+// Open/Close formulas popup
+function openFormulas() {
+  document.getElementById('formulasPopup').style.display = 'block';
+}
+function closeFormulas() {
+  document.getElementById('formulasPopup').style.display = 'none';
+}
+
+// Main calculation function
+function calculate() {
+  let expr = currentExpression;
+  expr = expr.replace(/√\(/g, 'sqrt(');
+  expr = balanceParentheses(expr);
+  expr = expr.replace(/([^\s()]+)\^([^\s()]+|\([^()]*\))/g, 'pow($1,$2)');
+  // No need to replace 'math.pi' anymore
+  try {
+    const result = math.evaluate(expr);
+    lastAnswer = result;
+    currentExpression = result.toString();
+    updateDisplay();
+    if (isValidExpression(currentExpression) && result !== undefined) {
+      history.push(currentExpression + ' = ' + result);
+      updateHistory();
+    }
+  } catch (e) {
+    displayEl.textContent = 'Error: Syntax Error';
+  }
+}
+
+// The function to change: only this
+function add69() {
+  currentExpression += '69';
+  updateDisplay();
+}
 </script>
 </body>
 </html>
